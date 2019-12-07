@@ -37,46 +37,63 @@
       </form>
     </div>
   </div>
-</body>
-<script>
-  /* 
-登录功能逻辑
-     给登录按钮注册点击事件
-
-
-*/
-  $(function () {
-    $('.input_sub').click(function (e) {
-      e.preventDefault();
-      //获取用户名和密码
-      var username = $('.input_txt').val().trim();
-      var password = $('.input_pass').val().trim();
-      //非空判断
-      if (username == '' || password == '') {
-        alert('用户名与密码不能为空');
-        return;
-      };
-      //ajax发送请求
-      $.ajax({
-        url: 'http://localhost:8080/api/v1/admin/user/login',
-        type: 'post',
-        dataType: 'json',
-        data: {
-          username,
-          password
-        },
-        success: function (res) {
-          console.log(res);
-          if (res.code == 200) {
-            //跳转首页
-            window.location.href = './index.html';
-          } else {
-            alert(res.msg);
+  <!-- 模态框   -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+              aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">警告！</h4>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    /* 
+  登录功能逻辑
+       给登录按钮注册点击事件  
+  */
+    $(function () {
+      $('.input_sub').click(function (e) {
+        e.preventDefault();
+        //获取用户名和密码
+        var username = $('.input_txt').val().trim();
+        var password = $('.input_pass').val().trim();
+        //非空判断
+        if (username == '' || password == '') {
+          // alert('用户名与密码不能为空嗷');
+          $('.modal-body').text('用户名与密码不能为空嗷')       
+          $('#myModal').modal();
+          return;
+        };
+        //ajax发送请求
+        $.ajax({
+          url: 'http://localhost:8080/api/v1/admin/user/login',
+          type: 'post',
+          dataType: 'json',
+          data: {
+            username,
+            password
+          },
+          success: function (res) {
+            console.log(res);
+            if (res.code == 200) {
+              //跳转首页
+              window.location.href = './index.html';
+            } else {
+              alert(res.msg);
+            }
           }
-        }
+        });
       });
     });
-  });
-</script>
+  </script>
 
 </html>
